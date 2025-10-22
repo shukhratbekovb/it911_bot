@@ -11,7 +11,7 @@ from configs import TOKEN, WEBHOOK_URL
 from fastapi import FastAPI, Request
 from handlers.start import router as start_router
 from handlers.lead import router as lead_router
-
+from starlette.middleware.cors import CORSMiddleware
 default_properties = DefaultBotProperties(parse_mode=ParseMode.MARKDOWN)
 bot = Bot(TOKEN, default=default_properties)
 dp = Dispatcher()
@@ -36,7 +36,14 @@ async def lifespan(app: FastAPI):
 app = FastAPI(
     lifespan=lifespan,
 )
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
 
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/health")
 async def health():
