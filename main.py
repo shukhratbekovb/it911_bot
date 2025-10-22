@@ -50,10 +50,7 @@ async def process_webhook(request: Request):
     await dp.feed_update(bot, update)
     return {"status": "ok"}
 
-async def main():
-    include()
-    await dp.start_polling(bot)
 
 if __name__ == "__main__":
-    # uvicorn.run(app, host="0.0.0.0", port=8001)
-    asyncio.run(main())
+    uvicorn.run(app, host="0.0.0.0", port=8001)
+
